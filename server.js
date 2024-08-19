@@ -1,11 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
-const uploadRoutes = require('./routes/uploadRoutes'); // Include the upload routes
+const uploadRoutes = require('./routes/uploadRoutes');
+
+// Load environment variables from .env file
+dotenv.config();
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000; // Use environment variable for port
 
 // Connect to MongoDB
 connectDB();

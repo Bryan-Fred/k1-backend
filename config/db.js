@@ -1,9 +1,14 @@
 // config/db.js
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+dotenv.config();
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/supermarket', {
+    // Use the connection string from environment variables
+    await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
