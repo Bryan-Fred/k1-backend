@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
+const authRoutes = require('./routes/authRoutes'); // Import authentication routes
+const { protect } = require('./middleware/authMiddleware'); // Import protect middleware
 
 // Load environment variables from .env file
 dotenv.config();
@@ -20,8 +22,14 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads')); // Serve static files from the uploads directory
 
 // Routes
-app.use('/products', productRoutes);
-app.use('/upload', uploadRoutes); // Add the upload routes
+app.use('/api/auth', authRoutes); // Add the authentication routes
+app.use('/api/products', productRoutes); // Adjusted to /api/products for consistency
+app.use('/api/upload', uploadRoutes); // Adjusted to /api/upload for consistency
+
+// Example of a protected route
+app.get('/api/protected', protect, (req, res) => {
+  res.send('This is a protected route');
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
